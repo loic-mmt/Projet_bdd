@@ -47,7 +47,7 @@ WHERE idArtiste = 13;
 
 INSERT INTO ARTISTE VALUES
 	(15, 'Melville', 'FR', '1917-10-20', 'R'),
-	(16, 'Polanski', 'PL', '1933-08-18', 'R'),
+	(16, 'Polanski', 'PL', '1933-08-18', 'R')
 
 -- Avis :
 DELETE FROM AVIS
