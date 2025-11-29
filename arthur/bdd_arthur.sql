@@ -79,7 +79,7 @@ CREATE TABLE AVIS_COPIE (
     idFilm INT NOT NULL,
     idAlbum INT NOT NULL,
     note INT CHECK(note BETWEEN 0 AND 5) NOT NULL,
-    commentaire VARCHAR(255), -- We have supposed that you can leave a note without an commentaire.
+    commentaire VARCHAR(255), -- We've supposed that you can leave a note without a commentaire.
     dateAvis DATE NOT NULL,
     PRIMARY KEY id_Avis,
     FOREIGN KEY idUser REFERENCES UTILISATEUR(IdUser),
@@ -154,7 +154,7 @@ ALTER TABLE FILM_COPIE
 CREATE TABLE UTILISATEUR_COPIE (
     idUser INT NOT NULL PRIMARY KEY,
     nom VARCHAR(100) NOT NULL,
-    age INT NOT NULL
+    age INT (age < 125) NOT NULL
 );
 
 INSERT INTO UTILISATEUR_COPIE(idUser, nom, age)
