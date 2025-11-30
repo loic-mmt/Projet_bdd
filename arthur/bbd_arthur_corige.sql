@@ -134,20 +134,17 @@ CREATE TABLE AVIS_ALBUM (
 );
 
 INSERT INTO AVIS_FILM(idAvis, idUser, idFilm, note, commentaire, dateAvis)
-    SELECT idAvis, idUser, idFilm, note, commentaire, dateAvis
+    SELECT idAvisFilm, idUser, idFilm, note, commentaire, dateAvis
     FROM AVIS
     WHERE idFilm IS NOT NULL;
 
 
 INSERT INTO AVIS_ALBUM(idAvis, idUser, idAlbum, note, commentaire, dateAvis)
-    SELECT idAvis, idUser, idAlbum, note, commentaire, dateAvis
+    SELECT idAvisAlbum, idUser, idAlbum, note, commentaire, dateAvis
     FROM AVIS
     WHERE idAlbum IS NOT NULL;
 
 DROP TABLE AVIS;
-
-ALTER TABLE AVIS_COPIE
-    RENAME TO AVIS;
 
 CREATE TABLE PARTICIPE_FILM_COPIE(
     idArtiste INT NOT NULL,
