@@ -51,7 +51,7 @@ INSERT INTO ARTISTE VALUES
 
 -- Avis :
 DELETE FROM AVIS
-WHERE idAvis = 5; 
+WHERE idAvis = 250; 
 
 UPDATE AVIS
 SET note = CASE
@@ -62,7 +62,7 @@ END;
 
 UPDATE AVIS
 SET dateAvis = '2022-02-01'
-WHERE idArtiste = 2;
+WHERE idArtiste = 202;
 
 -- Film :
 DELETE FROM FILM
