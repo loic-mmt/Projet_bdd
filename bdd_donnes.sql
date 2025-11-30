@@ -53,4 +53,4 @@ INSERT INTO PARTICIPE_FILM VALUES
 	(2, 11, 'Acteur'),
 	(1, 10, 'Scénariste'),
 	(1, 11, NULL),
-	(50, 60, 'Acteur');;
+	(50, 60, 'Acteur');

@@ -2,7 +2,7 @@ CREATE TABLE PAYS_ARTISTE(
     idArtiste INT NOT NULL,
     pays_iso2 CHAR(2), -- Artists can have unknow or to ancient country to have iso2 code.
     PRIMARY KEY (idArtiste, pays_iso2),
-    FOREIGN KEY (idArtiste) REFERENCES ARTISTE(idArtiste)
+    FOREIGN KEY (idArtiste) REFERENCES ARTISTE(idArtiste) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 INSERT INTO PAYS_ARTISTE (idArtiste, pays_iso2)
@@ -13,7 +13,7 @@ CREATE TABLE METIER_ARTISTE(
     idArtiste INT NOT NULL,
     metier CHAR(1) NOT NULL,
     PRIMARY KEY (idArtiste),
-    FOREIGN KEY (idArtiste) REFERENCES ARTISTE(idArtiste)
+    FOREIGN KEY (idArtiste) REFERENCES ARTISTE(idArtiste) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 INSERT INTO METIER_ARTISTE (idArtiste, metier)
@@ -39,7 +39,7 @@ CREATE TABLE PAYS_FILM(
     idFilm INT NOT NULL,
     pays_iso2 CHAR(2), -- Same thing
     PRIMARY KEY (idFilm, pays_iso2),
-    FOREIGN KEY (idFilm) REFERENCES FILM(idFilm)
+    FOREIGN KEY (idFilm) REFERENCES FILM(idFilm) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 INSERT INTO PAYS_FILM (idFilm, pays_iso2)
@@ -52,7 +52,7 @@ CREATE TABLE FILM_COPIE (
     annee INT, -- Same than for ALBUM
     genre VARCHAR(30) NOT NULL,
     idRealisateur INT NOT NULL,
-    FOREIGN KEY (idRealisateur) REFERENCES ARTISTE(idArtiste)
+    FOREIGN KEY (idRealisateur) REFERENCES ARTISTE(idArtiste) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 INSERT INTO FILM_COPIE(idFilm, titre, annee, genre, idRealisateur)
@@ -71,7 +71,7 @@ CREATE TABLE ALBUM_COPIE (
     genre VARCHAR(30) NOT NULL,
     idArtistePrincipal INT NOT NULL,
     label VARCHAR(50), -- Albums can have no or Unknow label.
-    FOREIGN KEY (idArtistePrincipal) REFERENCES ARTISTE(idArtiste)
+    FOREIGN KEY (idArtistePrincipal) REFERENCES ARTISTE(idArtiste) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 INSERT INTO ALBUM_COPIE (idAlbum, titre, annee, genre, idArtistePrincipal, label)
@@ -87,7 +87,7 @@ CREATE TABLE PAYS_UTILISATEUR(
     idUser INT NOT NULL,
     pays_iso2 CHAR(2) NOT NULL, -- Users have know and actual countries.
     PRIMARY KEY (idUser, pays_iso2),
-    FOREIGN KEY (idUser) REFERENCES UTILISATEUR(idUser)
+    FOREIGN KEY (idUser) REFERENCES UTILISATEUR(idUser) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 INSERT INTO PAYS_UTILISATEUR(idUser, pays_iso2)
@@ -116,8 +116,8 @@ CREATE TABLE AVIS_FILM (
     note INT CHECK(note BETWEEN 0 AND 5) NOT NULL,
     commentaire VARCHAR(255), -- We've supposed that you can leave a note without a commentaire.
     dateAvis DATE NOT NULL,
-    FOREIGN KEY (idUser) REFERENCES UTILISATEUR(idUser),
-    FOREIGN KEY (idFilm) REFERENCES FILM(idFilm)
+    FOREIGN KEY (idUser) REFERENCES UTILISATEUR(idUser) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (idFilm) REFERENCES FILM(idFilm) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE AVIS_ALBUM (
@@ -127,8 +127,8 @@ CREATE TABLE AVIS_ALBUM (
     note INT CHECK(note BETWEEN 0 AND 5) NOT NULL,
     commentaire VARCHAR(255), -- We've supposed that you can leave a note without a commentaire.
     dateAvis DATE NOT NULL,
-    FOREIGN KEY (idUser) REFERENCES UTILISATEUR(idUser),
-    FOREIGN KEY (idAlbum) REFERENCES ALBUM(idAlbum)
+    FOREIGN KEY (idUser) REFERENCES UTILISATEUR(idUser) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (idAlbum) REFERENCES ALBUM(idAlbum) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 INSERT INTO AVIS_FILM(idAvisFilm, idUser, idFilm, note, commentaire, dateAvis)
@@ -150,8 +150,8 @@ CREATE TABLE PARTICIPE_FILM_COPIE(
     role VARCHAR(100), --Augmentation of the maxlength if artists have multiple roles in the same film.
                        -- We don't know if an artist can have an unknow role in a film, so we authorize NULL by default.
     PRIMARY KEY (idArtiste, idFilm),
-    FOREIGN KEY (idArtiste) REFERENCES ARTISTE(idArtiste),
-    FOREIGN KEY (idFilm) REFERENCES FILM(idFilm)
+    FOREIGN KEY (idArtiste) REFERENCES ARTISTE(idArtiste) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (idFilm) REFERENCES FILM(idFilm) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 INSERT INTO PARTICIPE_FILM_COPIE(idArtiste, idFilm, role)
@@ -162,3 +162,20 @@ DROP TABLE PARTICIPE_FILM;
 
 ALTER TABLE PARTICIPE_FILM_COPIE
     RENAME TO PARTICIPE_FILM;
+
+-- Gestion of weird ids numerotation, each one have to begin from 0.
+
+UPDATE ALBUM
+    SET idAlbum = idAlbum -100;
+
+UPDATE AVIS_ALBUM
+    SET idAvisAlbum = idAvisAlbum -200;
+
+UPDATE AVIS_FILM
+    SET idAvisFilm = idAvisFilm -200;
+
+UPDATE FILM
+    SET idFilm = idFilm -10;
+
+UPDATE UTILISATEUR
+    SET idUser = idUser - 1000
