@@ -175,4 +175,4 @@ UPDATE FILM
     SET idFilm = idFilm -10;
 
 UPDATE UTILISATEUR
-    SET idUser = idUser - 1000
+    SET idUser = idUser - 1000;
