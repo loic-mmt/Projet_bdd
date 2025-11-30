@@ -2,8 +2,11 @@
 
 -- Album :
 DELETE FROM ALBUM
-WHERE titre IS NULL
-  AND genre IS NULL;
+WHERE titre IS NULL;
+
+DELETE FROM ALBUM
+WHERE annee IS NULL;
+
 
 UPDATE ALBUM
 SET label = 'RCA Records'
