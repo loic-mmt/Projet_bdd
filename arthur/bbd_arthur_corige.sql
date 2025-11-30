@@ -110,37 +110,35 @@ ALTER TABLE UTILISATEUR_COPIE
     RENAME TO UTILISATEUR;
 
 CREATE TABLE AVIS_FILM (
-    idAvis INT PRIMARY KEY,
+    idAvisFilm INT PRIMARY KEY,
     idUser INT NOT NULL,
     idFilm INT NOT NULL,
     note INT CHECK(note BETWEEN 0 AND 5) NOT NULL,
     commentaire VARCHAR(255), -- We've supposed that you can leave a note without a commentaire.
     dateAvis DATE NOT NULL,
-    PRIMARY KEY (idAvis),
     FOREIGN KEY (idUser) REFERENCES UTILISATEUR(idUser),
     FOREIGN KEY (idFilm) REFERENCES FILM(idFilm)
 );
 
 CREATE TABLE AVIS_ALBUM (
-    idAvis INT PRIMARY KEY,
+    idAvisAlbum INT PRIMARY KEY,
     idUser INT NOT NULL,
     idAlbum INT NOT NULL,
     note INT CHECK(note BETWEEN 0 AND 5) NOT NULL,
     commentaire VARCHAR(255), -- We've supposed that you can leave a note without a commentaire.
     dateAvis DATE NOT NULL,
-    PRIMARY KEY (idAvis),
     FOREIGN KEY (idUser) REFERENCES UTILISATEUR(idUser),
     FOREIGN KEY (idAlbum) REFERENCES ALBUM(idAlbum)
 );
 
-INSERT INTO AVIS_FILM(idAvis, idUser, idFilm, note, commentaire, dateAvis)
-    SELECT idAvisFilm, idUser, idFilm, note, commentaire, dateAvis
+INSERT INTO AVIS_FILM(idAvisFilm, idUser, idFilm, note, commentaire, dateAvis)
+    SELECT idAvis, idUser, idFilm, note, commentaire, dateAvis
     FROM AVIS
     WHERE idFilm IS NOT NULL;
 
 
-INSERT INTO AVIS_ALBUM(idAvis, idUser, idAlbum, note, commentaire, dateAvis)
-    SELECT idAvisAlbum, idUser, idAlbum, note, commentaire, dateAvis
+INSERT INTO AVIS_ALBUM(idAvisAlbum, idUser, idAlbum, note, commentaire, dateAvis)
+    SELECT idAvis, idUser, idAlbum, note, commentaire, dateAvis
     FROM AVIS
     WHERE idAlbum IS NOT NULL;
 
